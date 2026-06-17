@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selenium — Apresentação</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#161b22; --fg:#e6edf3; --muted:#8b949e;
+    --accent:#43b02a;      /* verde Selenium */
+    --accent2:#58a6ff;
+    --kw:#ff7b72; --str:#a5d6ff; --com:#8b949e; --fn:#d2a8ff; --num:#79c0ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    overflow:hidden;
+  }
+  #deck{position:fixed;inset:0}
+  .slide{
+    position:absolute;inset:0;
+    display:none;flex-direction:column;justify-content:center;
+    padding:6vh 9vw;
+    animation:fade .35s ease;
+  }
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  h1{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;letter-spacing:-1px}
+  h2{font-size:clamp(1.6rem,4vw,2.8rem);margin-bottom:.6em;color:var(--fg)}
+  h2 .bar{color:var(--accent)}
+  p,li{font-size:clamp(1.05rem,2.2vw,1.6rem);line-height:1.5;color:var(--fg)}
+  .sub{color:var(--muted);font-size:clamp(1rem,2.4vw,1.7rem);margin-top:.6em}
+  ul{list-style:none;margin-top:.4em}
+  li{margin:.55em 0;padding-left:1.6em;position:relative}
+  li::before{content:"▹";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .tag{display:inline-block;align-self:flex-start;background:var(--accent);color:#fff;font-weight:700;
+       padding:.3em .8em;border-radius:99px;font-size:clamp(.6rem,1.1vw,.8rem);
+       letter-spacing:1.5px;text-transform:uppercase;margin-bottom:1.2em}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:4vw;align-items:center}
+  .two.wide{grid-template-columns:1.1fr .9fr}
+  code,pre{font-family:"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+  pre{
+    background:var(--bg2);border:1px solid #30363d;border-radius:12px;
+    padding:1.1em 1.3em;font-size:clamp(.7rem,1.45vw,1.05rem);line-height:1.6;
+    overflow:auto;box-shadow:0 12px 40px rgba(0,0,0,.4)
+  }
+  .kw{color:var(--kw)} .str{color:var(--str)} .com{color:var(--com)}
+  .fn{color:var(--fn)} .num{color:var(--num)} .dim{color:var(--muted)}
+  .chip{display:inline-block;background:var(--bg2);border:1px solid #30363d;
+        border-radius:8px;padding:.15em .5em;color:var(--accent2);font-family:monospace;
+        font-size:.9em}
+  .pros{display:grid;grid-template-columns:1fr 1fr;gap:3vw;margin-top:.5em}
+  .pros h3{font-size:clamp(1.1rem,2.4vw,1.7rem);margin-bottom:.3em}
+  .pros .good h3{color:var(--accent)} .pros .bad h3{color:var(--kw)}
+  .demo{text-align:center}
+  .demo .big{font-size:clamp(2.5rem,8vw,6rem);margin:.2em 0}
+  .steps{counter-reset:s;margin-top:.6em}
+  .steps li{padding-left:2.4em}
+  .steps li::before{counter-increment:s;content:counter(s);
+    background:var(--accent);color:#fff;width:1.5em;height:1.5em;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:.75em;font-weight:700;top:.15em}
+  footer{position:fixed;bottom:18px;left:0;right:0;display:flex;
+    justify-content:space-between;padding:0 28px;color:var(--muted);font-size:.8rem;pointer-events:none}
+  .progress{position:fixed;top:0;left:0;height:4px;background:var(--accent);transition:width .3s}
+  .hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+    color:var(--muted);font-size:.72rem;opacity:.6}
+  .logo{font-weight:800;letter-spacing:-1px}
+  .logo .o{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="progress" id="prog"></div>
+<div id="deck">
+
+  <!-- 1 · CAPA -->
+  <section class="slide active">
+    <span class="tag">Bibliotecas Python</span>
+    <h1><span class="logo">Selen<span class="o">i</span>um</span><br>automação de navegador</h1>
+    <p class="sub">Controlando o Chrome com código — demo: login + horário no SIGA</p>
+    <p class="sub" style="margin-top:2em;font-size:1rem">Matheus Chiqueto</p>
+  </section>
+
+  <!-- 2 · O QUE É -->
+  <section class="slide">
+    <h2><span class="bar">#</span> O que é Selenium?</h2>
+    <p>Uma biblioteca que <strong>controla um navegador real</strong> (Chrome, Firefox...) por código — clicando, digitando e navegando como um humano.</p>
+    <ul>
+      <li><strong>Testes automatizados</strong> de sites e sistemas web</li>
+      <li><strong>Web scraping</strong> de páginas que dependem de JavaScript</li>
+      <li><strong>Automação de tarefas</strong> repetitivas (logins, formulários, relatórios)</li>
+    </ul>
+    <p class="sub">Se um humano consegue fazer no navegador, o Selenium consegue automatizar.</p>
+  </section>
+
+  <!-- 3 · COMO FUNCIONA -->
+  <section class="slide">
+    <h2><span class="bar">#</span> Como funciona</h2>
+    <div class="two wide">
+      <div>
+        <ul>
+          <li>Seu script Python fala com o <strong>WebDriver</strong></li>
+          <li>O WebDriver controla um Chrome <strong>de verdade</strong> na tela</li>
+          <li>Selenium 4 baixa o driver <strong>sozinho</strong> — sem configuração</li>
+        </ul>
+        <p class="sub">Você vê tudo acontecendo: o mouse, os cliques, as páginas trocando.</p>
+      </div>
+      <div>
+<pre><span class="com"># abre o Chrome (driver automático)</span>
+navegador = webdriver.<span class="fn">Chrome</span>()
+navegador.<span class="fn">get</span>(<span class="str">"https://siga..."</span>)</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · CONCEITOS NO CÓDIGO -->
+  <section class="slide">
+    <h2><span class="bar">#</span> Os 2 conceitos-chave</h2>
+    <div class="two">
+      <div>
+        <h3 style="color:var(--accent2);font-size:1.4rem;margin-bottom:.3em">1. Localizar — <span class="chip">By</span></h3>
+        <p class="sub" style="margin-top:0">Acha elementos por <code>ID</code>, <code>XPATH</code>, classe...</p>
+        <h3 style="color:var(--accent2);font-size:1.4rem;margin:.9em 0 .3em">2. Esperar — <span class="chip">WebDriverWait</span></h3>
+        <p class="sub" style="margin-top:0">Páginas carregam devagar. O Selenium <strong>espera</strong> o elemento ficar pronto antes de agir.</p>
+      </div>
+      <div>
+<pre><span class="com"># espera o campo aparecer, então digita</span>
+campo = espera.<span class="fn">until</span>(
+    EC.<span class="fn">element_to_be_clickable</span>(
+        (By.<span class="num">ID</span>, <span class="str">"i0116"</span>)
+    )
+)
+campo.<span class="fn">send_keys</span>(EMAIL)</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · O QUE A DEMO FAZ -->
+  <section class="slide">
+    <h2><span class="bar">#</span> A demo: <span class="chip">horario_siga.py</span></h2>
+    <ul class="steps">
+      <li>Abre o portal do <strong>SIGA</strong> no Chrome</li>
+      <li>Preenche <strong>e-mail e senha</strong> sozinho (lidos de um <code>.env</code>)</li>
+      <li>Pausa pro <strong>2FA</strong> — você aprova no celular e o script retoma</li>
+      <li>Navega <strong>Meu Curso → Horário</strong> automaticamente</li>
+    </ul>
+    <p class="sub">Tudo isso em ~60 linhas de Python.</p>
+  </section>
+
+  <!-- 6 · DEMO AO VIVO -->
+  <section class="slide demo">
+    <span class="tag">Agora ao vivo</span>
+    <div class="big">▶ Demonstração</div>
+    <pre style="display:inline-block;text-align:left;margin-top:.5em"><span class="dim">$</span> python3 horario_siga.py</pre>
+  </section>
+
+  <!-- 7 · PRÓS / CONTRAS -->
+  <section class="slide">
+    <h2><span class="bar">#</span> Prós &amp; contras</h2>
+    <div class="pros">
+      <div class="good">
+        <h3>✓ A favor</h3>
+        <ul>
+          <li>Automatiza qualquer site</li>
+          <li>Roda JavaScript de verdade</li>
+          <li>Várias linguagens e navegadores</li>
+        </ul>
+      </div>
+      <div class="bad">
+        <h3>✕ Cuidado</h3>
+        <ul>
+          <li>Mais lento que chamar uma API</li>
+          <li>Quebra se o layout do site muda</li>
+          <li>Precisa do navegador instalado</li>
+        </ul>
+      </div>
+    </div>
+    <p class="sub" style="margin-top:1.2em">Docs: <span class="chip">selenium.dev/documentation</span> &nbsp;·&nbsp; Obrigado!</p>
+  </section>
+
+</div>
+
+<footer><span class="logo">selen<span class="o" style="color:var(--accent)">i</span>um</span><span id="counter"></span></footer>
+<div class="hint">← →  ou  espaço para navegar  ·  F = tela cheia</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  const prog=document.getElementById('prog');
+  const counter=document.getElementById('counter');
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    prog.style.width=((i+1)/slides.length*100)+'%';
+    counter.textContent=(i+1)+' / '+slides.length;
+  }
+  function next(){show(i+1)} function prev(){show(i-1)}
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();next()}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();prev()}
+    else if(e.key==='Home')show(0);
+    else if(e.key==='End')show(slides.length-1);
+    else if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+  show(0);
+</script>
+</body>
+</html>
